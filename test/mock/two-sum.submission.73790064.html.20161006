@@ -151,7 +151,7 @@ The return format had been changed to zero-based indices. Please read the above 
               <li id="articlesNav"><a href="/articles/">Articles</a></li>
               <!-- TODO: not hard code -->
               
-              <li id=""><a href="https://discuss.leetcode.com" target="_blank">Discuss</a></li>
+              <li id=""><a href="https://discuss.leetcode.cn" target="_blank">Discuss</a></li>
               
               
               <li id="bookNav" class="hidden-sm"><a onclick="ga('send', 'event', 'book', 'click', 'nav-bar');" href="/book/"><font color="#ed9c28">Book</font></a></li>
@@ -309,7 +309,7 @@ The return format had been changed to zero-based indices. Please read the above 
           <div
             class="addthis_sharing_toolbox"
             data-title="#LeetCode# I have solved Two Sum. Come and join the fun!"
-            data-url="leetcode.com/problems/two-sum/">
+            data-url="leetcode.cn/problems/two-sum/">
           </div>
         </div>
       </div>
@@ -364,7 +364,7 @@ The return format had been changed to zero-based indices. Please read the above 
     </footer>
     
 
-    <a href="mailto:admin@leetcode.com?subject=Feedback" id="chat-link" target="_blank">
+    <a href="mailto:admin@leetcode.cn?subject=Feedback" id="chat-link" target="_blank">
     <i class="glyphicon glyphicon-envelope"></i>Send Feedback</a>
 
     <script>
@@ -406,7 +406,7 @@ The return format had been changed to zero-based indices. Please read the above 
   ,m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a
   ,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'
   );
-  ga('create', 'UA-6849839-6', 'leetcode.com');
+  ga('create', 'UA-6849839-6', 'leetcode.cn');
   ga('require', 'displayfeatures');
   ga('send', 'pageview');
 </script>

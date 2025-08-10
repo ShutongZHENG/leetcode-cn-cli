@@ -17,7 +17,7 @@ describe('plugin:leetcode', function() {
     id:     389,
     name:   'Find the Difference',
     slug:   'find-the-difference',
-    link:   'https://leetcode.com/problems/find-the-difference',
+    link:   'https://leetcode.cn/problems/find-the-difference',
     locked: false,
     file:   '/dev/null'
   };
@@ -42,13 +42,13 @@ describe('plugin:leetcode', function() {
 
   describe('#login', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/accounts/login/')
         .reply(200, '', { 'Set-Cookie': [
             'csrftoken=LOGIN_CSRF_TOKEN; Max-Age=31449600; Path=/; secure'
           ]});
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/accounts/login/')
         .reply(302, '', {
           'Set-Cookie': [
@@ -56,7 +56,7 @@ describe('plugin:leetcode', function() {
             'LEETCODE_SESSION=SESSION_ID; Max-Age=31449600; Path=/; secure'
           ]});
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/list/api/questions')
         .reply(200, JSON.stringify({
           user_name: 'Eric',
@@ -78,14 +78,14 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/accounts/login/')
         .reply(200, '', {
           'Set-Cookie': [
             'csrftoken=LOGIN_CSRF_TOKEN; Max-Age=31449600; Path=/; secure'
           ]});
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/accounts/login/')
         .replyWithError('unknown error!');
 
@@ -96,7 +96,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error, 2nd', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/accounts/login/')
         .replyWithError('unknown error!');
 
@@ -109,15 +109,15 @@ describe('plugin:leetcode', function() {
 
   describe('#getProblems', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/algorithms/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/database/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/shell/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
@@ -129,15 +129,15 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if error occurs', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/algorithms/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/database/')
         .replyWithError('unknown error');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/shell/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
@@ -150,7 +150,7 @@ describe('plugin:leetcode', function() {
 
   describe('#getCategoryProblems', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/algorithms/')
         .replyWithFile(200, './test/mock/problems.json.20160911');
 
@@ -163,7 +163,7 @@ describe('plugin:leetcode', function() {
 
     it('should fail if not login', function(done) {
       config.autologin.enable = false;
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/problems/algorithms/')
         .replyWithFile(200, './test/mock/problems.nologin.json.20161015');
 
@@ -180,7 +180,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/graphql')
         .replyWithFile(200, './test/mock/find-the-difference.json.20171216');
 
@@ -366,7 +366,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if session expired', function(done) {
-      nock('https://leetcode.com').post('/graphql').reply(403);
+      nock('https://leetcode.cn').post('/graphql').reply(403);
 
       plugin.getProblem(PROBLEM, function(e, problem) {
         assert.equal(e, session.errors.EXPIRED);
@@ -375,7 +375,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error', function(done) {
-      nock('https://leetcode.com').post('/graphql').reply(500);
+      nock('https://leetcode.cn').post('/graphql').reply(500);
 
       plugin.getProblem(PROBLEM, function(e, problem) {
         assert.deepEqual(e, {msg: 'http error', statusCode: 500});
@@ -384,7 +384,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if unknown error', function(done) {
-      nock('https://leetcode.com').post('/graphql').replyWithError('unknown error!');
+      nock('https://leetcode.cn').post('/graphql').replyWithError('unknown error!');
 
       plugin.getProblem(PROBLEM, function(e, problem) {
         assert.equal(e.message, 'unknown error!');
@@ -395,15 +395,15 @@ describe('plugin:leetcode', function() {
 
   describe('#testProblem', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/interpret_solution/')
         .reply(200, '{"interpret_expected_id": "id1", "interpret_id": "id2"}');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id1/check/')
         .reply(200, '{"state": "SUCCESS", "run_success": true, "status_code": 10}');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id2/check/')
         .reply(200, '{"state": "SUCCESS", "run_success": false, "status_code": 15}');
 
@@ -418,7 +418,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/interpret_solution/')
         .replyWithError('unknown error!');
 
@@ -431,11 +431,11 @@ describe('plugin:leetcode', function() {
 
   describe('#submitProblem', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/submit/')
         .reply(200, '{"submission_id": "id1"}');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id1/check/')
         .reply(200, '{"state": "SUCCESS", "run_success": true, "status_code": 10}');
 
@@ -448,17 +448,17 @@ describe('plugin:leetcode', function() {
     });
 
     it('should ok after delay', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/submit/')
         .reply(200, '{"error": "You run code too soon"}');
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/submit/')
         .reply(200, '{"submission_id": "id1"}');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id1/check/')
         .reply(200, '{"state": "STARTED"}');
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id1/check/')
         .reply(200, '{"state": "SUCCESS", "run_success": true, "status_code": 10}');
 
@@ -471,7 +471,7 @@ describe('plugin:leetcode', function() {
     }).timeout(5000);
 
     it('should fail if server error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/submit/')
         .reply(200, '{"error": "maybe internal error?"}');
 
@@ -482,11 +482,11 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if server error in check result', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/problems/find-the-difference/submit/')
         .reply(200, '{"submission_id": "id1"}');
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/id1/check/')
         .replyWithError('unknown error!');
 
@@ -499,7 +499,7 @@ describe('plugin:leetcode', function() {
 
   describe('#starProblem', function() {
     it('should star ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/list/api/questions')
         .reply(204, '');
 
@@ -511,7 +511,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should unstar ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .delete('/list/api/questions/abcdef/389')
         .reply(204, '');
 
@@ -523,7 +523,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should star fail if http error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/list/api/questions')
         .replyWithError('unknown error!');
 
@@ -540,11 +540,11 @@ describe('plugin:leetcode', function() {
         id:     1,
         name:   'Two Sum',
         slug:   'two-sum',
-        link:   'https://leetcode.com/problems/two-sum',
+        link:   'https://leetcode.cn/problems/two-sum',
         locked: false
       };
 
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/submissions/two-sum')
         .replyWithFile(200, './test/mock/two-sum.submissions.json.20170425');
 
@@ -578,7 +578,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/api/submissions/find-the-difference')
         .replyWithError('unknown error!');
 
@@ -591,7 +591,7 @@ describe('plugin:leetcode', function() {
 
   describe('#getSubmission', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/73790064/')
         .replyWithFile(200, './test/mock/two-sum.submission.73790064.html.20161006');
 
@@ -612,7 +612,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if http error', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/73790064/')
         .replyWithError('unknown error!');
 
@@ -623,7 +623,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if no matching submission', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/submissions/detail/73790064/')
         .replyWithFile(200, './test/mock/locked.html.20161015');
 
@@ -637,7 +637,7 @@ describe('plugin:leetcode', function() {
 
   describe('#getFavorites', function() {
     it('should ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .get('/list/api/questions')
         .replyWithFile(200, './test/mock/favorites.json.20170716');
 
@@ -657,7 +657,7 @@ describe('plugin:leetcode', function() {
     const DATA = {sessions: []};
 
     it('should getSessions ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/session/')
         .reply(200, JSON.stringify(DATA));
 
@@ -669,7 +669,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should activateSessions ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .put('/session/', {func: 'activate', target: 1})
         .reply(200, JSON.stringify(DATA));
 
@@ -681,7 +681,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should createSessions ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .put('/session/', {func: 'create', name: 's1'})
         .reply(200, JSON.stringify(DATA));
 
@@ -693,7 +693,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should deleteSessions ok', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .delete('/session/', {target: 1})
         .reply(200, JSON.stringify(DATA));
 
@@ -705,7 +705,7 @@ describe('plugin:leetcode', function() {
     });
 
     it('should fail if 302 returned', function(done) {
-      nock('https://leetcode.com')
+      nock('https://leetcode.cn')
         .post('/session/')
         .reply(302);
 
